@@ -1,0 +1,6 @@
+\node_modules
+
+app/models/user.js
+app/models/thing.js
+app/controller/user.js
+app/controller/stuff.js
