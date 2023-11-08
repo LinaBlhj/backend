@@ -2,7 +2,7 @@ module.exports = {
     HOST: "localhost",
     USER: "root",
     PASSWORD: "",
-    DB: "testdb",
+    DB: "serj_dbb",
     dialect: "mysql",
     pool: {
       max: 5,
