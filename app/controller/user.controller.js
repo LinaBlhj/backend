@@ -17,6 +17,14 @@ console.log(req.body.password)
     .catch(error => res.status(500).json({ error }));
 };
 
+exports.test  = (req, res, next) => {
+  res.send({"test": "test"})
+  };
+exports.testPost  = (req, res, next) => {
+  console.log(req)
+  };
+    
+
 exports.login = (req, res, next) => {
   Utilisateur.findOne({ where: { email: req.body.email } })
     .then(user => {
