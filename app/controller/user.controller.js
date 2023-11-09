@@ -30,8 +30,9 @@ exports.testPost  = (req, res, next) => {
   };
 
 //User//
-//creation
-exports.creation =  (req, res, next) => {
+//create
+//Post: localhost:3005/api/auth/users
+exports.create =  (req, res, next) => {
   console.log(req)
        userDB.create({
         prenom: req.body.prenom,
