@@ -32,35 +32,38 @@ exports.testPost  = (req, res, next) => {
 //User//
 //creation
 exports.creation =  (req, res, next) => {
-  console.log(req)
-       userDB.create({
-        prenom: req.body.prenom,
-        nom: req.body.nom,
-        dateOfBirth: req.body.dateOfBirth,
-        email: req.body.email,
-        password: req.body.password,
-        phoneNumber: req.body.phoneNumber,
-        jobSector: req.body.jobSector,
-        jobType: req.body.jobType,
-        Hours: req.body.Hours,
-        Day: req.body.Day,
-        Week: req.body.Week,
-        Shift: req.body.Shift,
-        Extra: req.body.Extra
-    }).then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Tutorial."
+  bcrypt.hash(req.body.password, 10).then(hash => {
+    userDB.create({
+          prenom: req.body.prenom,
+          nom: req.body.nom,
+          dateOfBirth: req.body.dateOfBirth,
+          email: req.body.email,
+          password: hash,
+          phoneNumber: req.body.phoneNumber,
+          jobSector: req.body.jobSector,
+          jobType: req.body.jobType,
+          Hours: req.body.Hours,
+          Day: req.body.Day,
+          Week: req.body.Week,
+          Shift: req.body.Shift,
+          Extra: req.body.Extra
+      }).then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Tutorial."
+        });
       });
-    });
+
+
+  })
 }
     
 
 exports.login = (req, res, next) => {
-  Utilisateur.findOne({ where: { email: req.body.email } })
+  userDB.findOne({ where: { email: req.body.email } })
     .then(user => {
       if (!user) {
         return res.status(401).json({ error: 'Utilisateur non trouvé !' });

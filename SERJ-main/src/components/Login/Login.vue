@@ -61,10 +61,12 @@
 </template>
 
 <script >
+
+import UserDataService from "../../services/userDataService";
 export default {
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
       showPassword: true,
     };
@@ -72,9 +74,11 @@ export default {
   methods: {
     login() {
       // Ajoutez votre logique de connexion ici
-      alert('Nom d\'utilisateur:' + this.username)
-      console.log('Nom d\'utilisateur:', this.username);
-      console.log('Mot de passe:', this.password);
+      alert('Nom d\'utilisateur:' + this.email)
+      UserDataService.login({"email" : "johndoe@example.com", "password" : this.password})
+        .catch((e) => {
+          console.log(e);
+        });
       // Redirigez l'utilisateur après la connexion réussie
     },
     redirectToSignup() {
