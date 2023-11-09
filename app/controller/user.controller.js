@@ -31,33 +31,32 @@ exports.testPost  = (req, res, next) => {
 
 //User//
 //creation
-exports.creation =  (req, res, next) => {
+exports.create =  (req, res, next) => {
+  console.log(req)
   bcrypt.hash(req.body.password, 10).then(hash => {
-    userDB.create({
-          prenom: req.body.prenom,
-          nom: req.body.nom,
-          dateOfBirth: req.body.dateOfBirth,
-          email: req.body.email,
-          password: hash,
-          phoneNumber: req.body.phoneNumber,
-          jobSector: req.body.jobSector,
-          jobType: req.body.jobType,
-          Hours: req.body.Hours,
-          Day: req.body.Day,
-          Week: req.body.Week,
-          Shift: req.body.Shift,
-          Extra: req.body.Extra
-      }).then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Tutorial."
-        });
+       userDB.create({
+        prenom: req.body.prenom,
+        nom: req.body.nom,
+        dateOfBirth: req.body.dateOfBirth,
+        email: req.body.email,
+        password: hash,
+        phoneNumber: req.body.phoneNumber,
+        jobSector: req.body.jobSector,
+        jobType: req.body.jobType,
+        Hours: req.body.Hours,
+        Day: req.body.Day,
+        Week: req.body.Week,
+        Shift: req.body.Shift,
+        Extra: req.body.Extra
+    }).then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Tutorial."
       });
-
-
+    });
   })
 }
     

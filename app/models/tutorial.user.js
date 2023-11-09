@@ -5,20 +5,6 @@ const { DataTypes, Model } = require("sequelize");
 class Utilisateur extends Model {}
 
 module.exports = (sequelize, Sequelize) => {
-  /*const Utilisateur = sequelize.define("user", {
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true, // Ajoute une validation d'e-mail
-      },
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  });*/
   const Utilisateur = sequelize.define('Utilisateur', {
     prenom: {
       type: DataTypes.STRING,
