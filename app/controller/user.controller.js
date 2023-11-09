@@ -2,8 +2,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Utilisateur = require('../models/tutorial.user.js'); // Assurez-vous d'avoir correctement importé le modèle Sequelize
 
+//requiered definitions for database
+const db = require("../models");
+const userDB = db.utilisateur;
+const Op = db.Sequelize.Op;
+
 exports.signup = (req, res, next) => {
-console.log(req.body.password)
+//console.log(req.body.password)
 
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -23,6 +28,35 @@ exports.test  = (req, res, next) => {
 exports.testPost  = (req, res, next) => {
   console.log(req)
   };
+
+//User//
+//creation
+exports.creation =  (req, res, next) => {
+  console.log(req)
+       userDB.create({
+        prenom: req.body.prenom,
+        nom: req.body.nom,
+        dateOfBirth: req.body.dateOfBirth,
+        email: req.body.email,
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber,
+        jobSector: req.body.jobSector,
+        jobType: req.body.jobType,
+        Hours: req.body.Hours,
+        Day: req.body.Day,
+        Week: req.body.Week,
+        Shift: req.body.Shift,
+        Extra: req.body.Extra
+    }).then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Tutorial."
+      });
+    });
+}
     
 
 exports.login = (req, res, next) => {
