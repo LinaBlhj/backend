@@ -75,7 +75,7 @@ export default {
     login() {
       // Ajoutez votre logique de connexion ici
       alert('Nom d\'utilisateur:' + this.email)
-      UserDataService.login({"email" : "johndoe@example.com", "password" : this.password})
+      UserDataService.login({"email" : this.email, "password" : this.password})
         .catch((e) => {
           console.log(e);
         });
