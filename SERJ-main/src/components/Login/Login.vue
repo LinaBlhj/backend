@@ -76,13 +76,18 @@ export default {
       // Ajoutez votre logique de connexion ici
       alert('Nom d\'utilisateur:' + this.email)
       UserDataService.login({"email" : this.email, "password" : this.password})
+      .then((response) => {
+          console.log(response.data);
+          if(response.status==200) this.$router.push({ name: 'Registration' })
+      })
         .catch((e) => {
-          console.log(e);
+          console.log(e.status);
         });
+        
       // Redirigez l'utilisateur après la connexion réussie
     },
     redirectToSignup() {
-      this.$router.push({ name: 'Registration' });
+      
     },
   },
 };

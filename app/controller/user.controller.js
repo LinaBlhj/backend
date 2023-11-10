@@ -32,15 +32,16 @@ exports.testPost  = (req, res, next) => {
 //User//
 //creation
 exports.create =  (req, res, next) => {
-  console.log(req)
+  console.log(req.body)
   bcrypt.hash(req.body.password, 10).then(hash => {
+    console.log('hash ok')
        userDB.create({
-        prenom: req.body.prenom,
-        nom: req.body.nom,
-        dateOfBirth: req.body.dateOfBirth,
+        prenom: req.body.firstName,
+        nom: req.body.lastName,
+        dateOfBirth: req.body.dateB,
         email: req.body.email,
         password: hash,
-        phoneNumber: req.body.phoneNumber,
+        phoneNumber: req.body.phone,
         jobSector: req.body.jobSector,
         jobType: req.body.jobType,
         Hours: req.body.Hours,
