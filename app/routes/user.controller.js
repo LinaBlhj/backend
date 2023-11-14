@@ -5,7 +5,6 @@ const Utilisateur = require('../models/tutorial.user.js'); // Assurez-vous d'avo
 //requiered definitions for database
 const db = require("../models");
 const userDB = db.utilisateur;
-const jobDB = db.job;
 const Op = db.Sequelize.Op;
 
 exports.signup = (req, res, next) => {
@@ -87,23 +86,3 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
-
-exports.associate  =async (req, res, next) => {
-  try {
-  const user =await userDB.findByPk(req.body.userID);
-  
-  /*userDB.create({
-    UtilisateurID: req.body.userID,
-    JobID: req.body.JobID
-  })*/
-  const job =await jobDB.findByPk(req.body.jobID)
-  console.log(job);
-  user.addJob(job);
-  next();
-}
-catch (error) {
-  console.error(error);
-  res.status(500).send('Internal Server Error');
-}
-
-  };

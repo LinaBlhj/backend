@@ -1,21 +1,28 @@
 
-const Utilisateur = sequelize.define('Utilisateur', { name: DataTypes.STRING });
-const Job = sequelize.define('Job', { name: DataTypes.STRING });
-const Application = sequelize.define('Application', {
+const Utilisateur = require('../models/tutorial.user.js');
+const Job = require('../models/tutorial.job.js');
+const db = require(".");
+const { HasOne,DataTypes, Model } = require("sequelize");
+const Sequelize = require('sequelize');
+
+/*module.exports = (sequelize, Sequelize) => {
+const app = sequelize.define('Application', {
   UserID: {
     type: DataTypes.INTEGER,
     references: {
-      model: Utilisateur, // 'Movies' would also work
+      model: Utilisateur, 
       key: 'id'
     }
   },
   JobID: {
     type: DataTypes.INTEGER,
     references: {
-      model: Job, // 'Actors' would also work
+      model: Job,
       key: 'id'
     }
   }
 });
-Movie.belongsToMany(Actor, { through: ActorMovies });
-Actor.belongsToMany(Movie, { through: ActorMovies });
+Utilisateur.belongsToMany(Model.Job, { through: "application" });
+Job.belongsToMany(Model.Utilisateur, { through: "application" });
+return app;
+};*/

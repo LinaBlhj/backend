@@ -8,4 +8,7 @@ router.post('/login', userCtrl.login);
 //USER
 router.post('/signup', userCtrl.create);
 
+//associate job
+router.post('/associate', userCtrl.associate);
+
 module.exports = router;

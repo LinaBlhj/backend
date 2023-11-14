@@ -1,7 +1,7 @@
 // Import des modules nécessaires pour Sequelize
 const db = require(".");
 const { DataTypes, Model } = require("sequelize");
-const job = db.job;
+
 
 // Création du modèle Job pour Sequelize
 class Job extends Model {}
