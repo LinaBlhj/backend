@@ -21,6 +21,6 @@ db.sequelize = sequelize;
 
 db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.utilisateur = require("./tutorial.user.js")(sequelize, Sequelize);
-
+db.job = require("./tutorial.job.js")(sequelize, Sequelize);
 
 module.exports = db;
