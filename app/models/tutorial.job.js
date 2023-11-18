@@ -1,44 +1,50 @@
 // Import des modules nécessaires pour Sequelize
+const db = require(".");
 const { DataTypes, Model } = require("sequelize");
-const Job = require('../models/tutorial.job.js');
-// Création du modèle Utilisateur pour Sequelize
-class Utilisateur extends Model {}
+
+
+// Création du modèle Job pour Sequelize
+class Job extends Model {}
 
 module.exports = (sequelize, Sequelize) => {
-  const Utilisateur = sequelize.define('Utilisateur', {
-    prenom: {
+  const Job = sequelize.define('Job', {
+    PositionName: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    nom: {
+    },    
+    Location: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    dateOfBirth: {
+    },    
+    BeginningDate: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true, // Ajoute une validation d'e-mail
-      },
-    },
-    password: {
+    },    
+    JobType: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    phoneNumber: {
+    },    
+    JobSector: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    jobSector: {
+    },    
+    Pay: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    jobType: {
+    },    
+    Compensation: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },    
+    Benefit: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },    
+    CandidateRequiered: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },    
+    DateRequiered: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -61,7 +67,11 @@ module.exports = (sequelize, Sequelize) => {
     Extra: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    JobDescription: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   });
-  return Utilisateur;
+  return Job;
 };

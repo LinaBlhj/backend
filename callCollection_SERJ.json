@@ -1,0 +1,66 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "SERJ",
+    "dateExported": "2023-11-14T15:46:14.118Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "b34bda60-e9a0-41c1-b888-6cfe0d6b5324",
+            "colId": "31a5ef00-8bdb-4a0b-9c7f-b533ab1fc2b5",
+            "containerId": "",
+            "name": "create user",
+            "url": "localhost:3005/api/auth/signup",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-11-14T15:41:01.517Z",
+            "modified": "2023-11-14T15:43:46.243Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"dateB\": \"1990-01-01\",\r\n  \"email\": \"johndoe@example.com\",\r\n  \"password\": \"password123\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"jobSector\": \"IT\",\r\n  \"jobType\": \"Full-time\",\r\n  \"Hours\": \"8\",\r\n  \"Day\": \"Monday\",\r\n  \"Week\": \"1\",\r\n  \"Shift\": \"Morning\",\r\n  \"Extra\": \"None\"\r\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "00bbe37d-58a5-4fe3-9bae-6085b3e74598",
+            "colId": "31a5ef00-8bdb-4a0b-9c7f-b533ab1fc2b5",
+            "containerId": "",
+            "name": "create job",
+            "url": "localhost:3005/api/job/create",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2023-11-14T15:41:10.273Z",
+            "modified": "2023-11-14T15:42:40.481Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"PositionName\": \"Software Engineer\",\n  \"Location\": \"Paris, France\",\n  \"BeginningDate\": \"2023-11-14\",\n  \"JobType\": \"Full-time\",\n  \"JobSector\": \"Technology\",\n \"Pay\": \"€50,000 - €60,000\",\n  \"Compensation\": \"Health insurance, 401k\",\n  \"Benefit\": \"Free lunch, gym membership\",\n  \"CandidateRequiered\": 3,\n  \"DateRequiered\": \"2023-12-01\",\n  \"Hours\": \"40 hours/week\",\n  \"Day\": \"Monday - Friday\",\n  \"Week\": \"2 weeks/month\",\n  \"Shift\": \"Day shift\",\n  \"Extra\": \"Must be fluent in French\",\n  \"JobDescription\": \"We are looking for a software engineer to join our team. The ideal candidate will have experience with JavaScript, React, and Node.js. If you are passionate about technology and want to work in a fast-paced environment, please apply!\"\n  }",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "a542a4a5-38c3-4700-b476-ce352035b4c0",
+            "colId": "31a5ef00-8bdb-4a0b-9c7f-b533ab1fc2b5",
+            "containerId": "",
+            "name": "create association job/user",
+            "url": "localhost:3005/api/auth/associate",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-11-14T15:41:07.708Z",
+            "modified": "2023-11-14T15:44:06.616Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userID\": 1,\n  \"jobID\": 1\n  }",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
