@@ -5,3 +5,4 @@ app/models/thing.js
 app/controller/user.js
 app/controller/stuff.js
 app/db.config.js
+.env

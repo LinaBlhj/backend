@@ -54,6 +54,7 @@ export default {
     },
     sendForm() {
       // Handle the form submission logic here
+
       console.log('Selected Option:', this.selectedOption);
       console.log('Input Value:', this.inputValue);
       this.$router.push({ name: 'Registration' });

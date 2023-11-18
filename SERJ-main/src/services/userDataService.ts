@@ -16,6 +16,10 @@ class TutorialDataService {
   login(data: any) {
     return http.post("/auth/login", data)
   }
+
+  requestResetPassword(data: any) {
+    return http.post("/auth/requestResetPassword", data)
+  }
 /*
   update(id: any, data: any) {
     return http.put(`/tutorials/${id}`, data);

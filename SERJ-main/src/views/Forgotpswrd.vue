@@ -17,7 +17,7 @@
 <script>
 import step1 from '@/components/Login/Forgotpswrd.vue'
 import step2 from '@/components/Login/Verifcode.vue'
-
+import UserDataService from '../services/UserDataService'
 
 export default {
     components: {
@@ -37,6 +37,16 @@ export default {
             if (this.currentStep === 's1') {
                 this.currentStep = 's2';
                 console.log("sent");
+                if(step1.data().selectedOption=='email') {
+                    console.log("test")
+                    UserDataService.requestResetPassword({"email" : "lilina5@live.fr"})
+                    .then((response) => {
+                        console.log(response.data);
+                    })
+                        .catch((e) => {
+                        console.log(e.status);
+                        });
+                }
             } else if (this.currentStep === 's2') {
                 //
                 console.log("verification");
