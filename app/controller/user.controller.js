@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Utilisateur = require('../models/tutorial.user.js'); // Assurez-vous d'avoir correctement importé le modèle Sequelize
-
+const PDFDocument = require('pdfkit');
 //requiered definitions for database
 const db = require("../models");
 const userDB = db.utilisateur;

@@ -1,5 +1,5 @@
 const dbConfig = require("../db.config.js");
-
+const { DataTypes, Model } = require("sequelize");
 
 //database
 const Sequelize = require("sequelize");
@@ -30,12 +30,52 @@ const userDB = db.utilisateur;
 const jobDB = db.job;
 
 //associations
-const entities = {
+//Job-User (Application)
+const entitiesA = {
   user: userDB,
   job: jobDB,
 };
-entities.user.belongsToMany(entities.job, {through: 'application'});
-entities.job.belongsToMany(entities.user, {through: 'application'});
+entitiesA.user.belongsToMany(entitiesA.job, {through: 'application'});
+entitiesA.job.belongsToMany(entitiesA.user, {through: 'application'});
+
+//Job-User (Conversation)
+const entitiesC = {
+  user: userDB,
+  job: jobDB,
+};
+entitiesC.user.belongsToMany(entitiesC.job, {through: 'Conversation'});
+entitiesC.job.belongsToMany(entitiesC.user, {through: 'Conversation'});
+
+
+//Enterprise-User (Contract)
+/*const Contract = sequelize.define('Contract', {
+  UserId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: userDB, // 'Movies' would also work
+      key: 'id'
+    }
+  },
+  EnterpriseId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: userDB, // 'Actors' would also work
+      key: 'id'
+    }
+  }
+});*/
+const userRelation = {
+  user1: userDB,
+  user2: userDB,
+  //add fields
+};
+
+const Contract = sequelize.define('Contract', {
+  fileLocation: DataTypes.STRING
+});
+
+userDB.belongsToMany(userDB, {through: Contract, as: 'EnterpriseId' });
+
 //sequelize.sync();
 
 module.exports = db;
