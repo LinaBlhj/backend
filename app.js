@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
 /*
 mongoose.connect('mongodb+srv://lina:scaolO4MansRER32@cluster0.wsovhbg.mongodb.net/?retryWrites=true&w=majority')
