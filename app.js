@@ -15,6 +15,7 @@ app.use(express.json());
 const stuffRoutes = require('./app/routes/stuff.js');
 const userRoutes = require('./app/routes/user.js');
 const jobRoutes = require('./app/routes/job.js');
+const contractRoutes = require('./app/routes/contract.js');
 //const appliRoutes = require('./app/routes/application.js');
 
 app.use((req, res, next) => {
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/api/job', jobRoutes);
+app.use('/api/contract', contractRoutes);
 //app.use('/api/appli', appliRoutes);
   
 module.exports = app;

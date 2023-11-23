@@ -4,6 +4,7 @@ const Utilisateur = require('../models/tutorial.user.js'); // Assurez-vous d'avo
 const sendEmail = require("../utils/email/sendEmail");
 const crypto = require("crypto");
 var nodemailer = require('nodemailer');
+const PDFDocument = require('pdfkit');
 //requiered definitions for database
 const db = require("../models");
 const userDB = db.utilisateur;
