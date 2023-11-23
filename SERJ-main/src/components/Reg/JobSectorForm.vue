@@ -8,7 +8,7 @@
 
                     <v-card-text>
 
-                        <form @submit.prevent="submitJobSectorInfo">
+                        <form @submit.prevent="SubmitJobSectorInfo">
                             <h2 style="color: #D3D3D3;">What job sector do you prefer ?</h2>
                             <br>
 
@@ -23,9 +23,6 @@
                                     </v-col>
                                 </v-row>
                             </v-radio-group>
-                            <v-row justify="center">
-                                <v-btn color="primary" type="submit" > Next </v-btn>
-                            </v-row >
                         </form>
                     </v-card-text>
                 <!-- </v-card> -->
@@ -59,7 +56,7 @@ export default {
         submitJobSectorInfo() {
             // You can perform validation here if needed
             // Emit an event or pass the contactInfo data to the parent component
-            this.$emit('jobSector-info-submitted', this.options.find(option => option.value === this.selectedOption).label);
+            this.$emit('JobSector-info-submitted', this.JobSectorInfo);
         },
     },
 };

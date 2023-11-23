@@ -31,7 +31,7 @@
                 <!-- Btn login -->
 
                 <v-row class="d-flex align-center justify-center">
-                  <v-btn color="primary" type="submit">Login</v-btn>
+                  <v-btn color="primary" type="submit" >Login</v-btn>
                 </v-row>
                 <br>
                 <v-row class="d-flex align-center justify-center">
@@ -61,12 +61,10 @@
 </template>
 
 <script >
-
-import UserDataService from "../../services/userDataService";
 export default {
   data() {
     return {
-      email: '',
+      username: '',
       password: '',
       showPassword: true,
     };
@@ -74,20 +72,14 @@ export default {
   methods: {
     login() {
       // Ajoutez votre logique de connexion ici
-      alert('Nom d\'utilisateur:' + this.email)
-      UserDataService.login({"email" : this.email, "password" : this.password})
-      .then((response) => {
-          console.log(response.data);
-          if(response.status==200) this.$router.push({ name: 'Registration' })
-      })
-        .catch((e) => {
-          console.log(e.status);
-        });
-        
+      alert('Nom d\'utilisateur:' + this.username)
+      console.log('Nom d\'utilisateur:', this.username);
+      console.log('Mot de passe:', this.password);
       // Redirigez l'utilisateur après la connexion réussie
+      this.$router.push({ name: 'Catalogue' });
     },
     redirectToSignup() {
-      
+      this.$router.push({ name: 'Registration' });
     },
   },
 };

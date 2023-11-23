@@ -58,9 +58,6 @@
                                     </v-col>
                                 </v-row>
                             </v-col>
-                            <v-row justify="center">
-                                <v-btn color="primary" type="submit" > Save </v-btn>
-                            </v-row >
                         </form>
                     </v-card-text>
                 <!-- </v-card> -->
@@ -79,25 +76,19 @@ export default {
         { text: 'Item 2', icon: 'mdi-star' },
         { text: 'Item 3', icon: 'mdi-heart' },
       ],
-      
     };
     },
     methods: {
-        Save() {
-            console.log("save")
-            // You can perform validation here if needed
-            // Emit an event or pass the contactInfo data to the parent component
-            this.$emit('avaibalility-info-submitted', {  "Hours": "8",
-                                                        "Day": "Monday",
-                                                        "Week": "1",
-                                                        "Shift": "Morning",
-                                                        "Extra": "None"});
-        },
         radioClass(value) {
             return {
                 'radio-with-border': true,
                 'radio-checked': this.selectedOption === value,
             };
+        },
+        Save() {
+            // You can perform validation here if needed
+            // Emit an event or pass the contactInfo data to the parent component
+            this.$emit('Avaibalility-info-submitted', this.AvailabilityInfo);
         },
     },
 };

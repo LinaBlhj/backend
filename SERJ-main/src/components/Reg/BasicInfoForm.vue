@@ -34,7 +34,7 @@
                             <v-text-field v-model="basicInfo.password" label="Password" required
                                 class="w-100"></v-text-field>
                             <v-text-field v-model="basicInfo.phone" label="Phone" required class="w-100"></v-text-field>
-                            <v-btn color="primary" type="submit">Next</v-btn>
+                            <!-- <v-btn color="primary" type="submit">Next</v-btn> -->
                         </form>
                     </v-card-text>
                 <!-- </v-card> -->
@@ -59,7 +59,6 @@ export default {
     },
     methods: {
         submitBasicInfo() {
-            console.log("aaaaaaaaaaaa")
             // You can perform validation here if needed
             // Emit an event or pass the basicInfo data to the parent component
             this.$emit('basic-info-submitted', this.basicInfo);
