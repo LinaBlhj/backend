@@ -9,7 +9,7 @@ const db = require("../models");
 const userDB = db.utilisateur;
 const jobDB = db.job;
 const Op = db.Sequelize.Op;
-
+let verificationCode=0;
 //User//
 //creation
 exports.create =  (req, res, next) => {
@@ -42,6 +42,30 @@ exports.create =  (req, res, next) => {
   })
 }
     
+// Update a User by the id in the request
+exports.update = (req, res) => {
+  const id = req.params.id;
+
+  userDB.update(req.body, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Tutorial was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Tutorial with id=" + id
+      });
+    });
+};
 
 exports.login = (req, res, next) => {
   userDB.findOne({ where: { email: req.body.email } })
@@ -150,33 +174,34 @@ catch (error) {
 
 
 exports.requestPasswordReset = (req, res, next) => {
-  const user = userDB.findOne({ where: { email: req.body.email } });
-  if (!user) throw new ("Email does not exist");
-  console.log("email trouvé")
-  let resetToken = crypto.randomBytes(32).toString("hex");
-  const hash = bcrypt.hash(resetToken, 10);
-  const link = `localhost://3005//passwordReset?token=${resetToken}&id=${user._id}`;
-  //const link = `localhost://3005/passwordReset?token=${resetToken}&id=id`;
-  console.log("pre saveEmail")
-  sendEmail(user.email,"Password Reset Request",
-    {
-      name: user.name,
-      link: link,
-    },
-    "./template/requestResetPassword.handlebars",(err, data) => {
-    if (err){
-        console.log(err)
-        res.sendStatus(500)
-    }
-    else{
-        console.log(`success`)
-        res.sendStatus(200)
-       }
-})
+  const user = userDB.findOne({ where: { email: req.body.email } }).then(user => {
+    if (!user) throw ("Email does not exist");
+    console.log("email trouvé: ",user.email)
+    verificationCode = Math.floor(Math.random()*(999999 - 100000) + 100000)
+    //const hash = bcrypt.hash(verificationCode, 10);
+
+    console.log(verificationCode)
+    sendEmail(user.email,"Password Reset Request",
+      {
+        name: user.nom,
+        code: verificationCode,
+      },
+      "./template/requestResetPassword.handlebars",(err, data) => {
+      if (err){
+          console.log(err)
+          res.sendStatus(500)
+      }
+      else{
+          console.log(`success`)
+          res.sendStatus(200)
+         }
+  })
+    
+  })
 
 };
 
-exports.resetPassword = async (userId, token, password) => {
+exports.resetPassword = async (req, res, next) => {
   /*let passwordResetToken = await Token.findOne({ userId });
   if (!passwordResetToken) {
     throw new Error("Invalid or expired password reset token");
@@ -185,20 +210,39 @@ exports.resetPassword = async (userId, token, password) => {
   if (!isValid) {
     throw new Error("Invalid or expired password reset token");
   }*/
-  const hash = await bcrypt.hash(password, 10);
-  await userDB.updateOne(
-    { _id: userId },
-    { $set: { password: hash } }
-  );
-  const user = await userDB.findById({ _id: userId });
-  sendEmail(
-    user.email,
-    "Password Reset Successfully",
-    {
-      name: user.name,
-    },
-    "./template/resetPassword.handlebars"
-  );
-  await passwordResetToken.deleteOne();
+  let userCode=req.body.userCode
+  let password=req.body.password
+  let userId=req.body.userId
+  console.log(verificationCode, " ", userCode)
+  if(verificationCode!=userCode) {
+    console.log(`Code invalide`)
+    res.sendStatus(200)
+  }
+  bcrypt.hash(password, 10).then(hash => {
+    userDB.update({ password: hash }, { where: { id: userId } });
+  })
+
+  userDB.findByPk(userId).then(user => {
+      sendEmail(
+        user.email,
+        "Password Reset Successfully",
+        {
+          name: user.nom,
+        },
+        "./template/resetPassword.handlebars",(err, data) => {
+          if (err){
+              console.log(err)
+              res.sendStatus(500)
+          }
+          else{
+              console.log(`success`)
+              res.sendStatus(200)
+            }
+      }
+      );
+
+  })
+
+  //await passwordResetToken.deleteOne();
   return true;
 };

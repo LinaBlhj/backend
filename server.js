@@ -1,7 +1,7 @@
 const http = require('http');
 const app = require('./app');
 const db = require('./app/models');
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     console.log("Drop and re-sync db.");
   });
 

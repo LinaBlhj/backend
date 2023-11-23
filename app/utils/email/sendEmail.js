@@ -15,36 +15,34 @@ const oauth2Client = new OAuth2(
 
 // Stockez ces tokens en toute sécurité (base de données sécurisée, etc.)
 const initialAccessToken = 'ya29.a0AfB_byAqzc7sOTCkwNpZy41PsT_i3hvhbhmA7QgckRgur2IZJLuIn4nIW-v8cTkY9rwP89TU8ooYFXaeXeoyCPiORHCK4KjCXe_4lDslyCcB4G_h_AsFXnqydeFhrveqtc9y7TgxLIt1uapd7ZR5W78rKdcDgATEkFxlaCgYKAVcSARESFQHGX2MiUrTaa57UggXib95Rmcat-Q0171';
-const refreshToken = '1//04oio90SvRDk1CgYIARAAGAQSNwF-L9IrJeyv8uBwPAEfyGpBcD6zwoAmmBKU_nRWS0OuzDCFvACy7y0BDIzS_gwykYG11cmoxds';
+const refreshToken = '1//04XJH6tYPl11UCgYIARAAGAQSNwF-L9IrL0kFsIA5-HWkv6WotenVzy_TSeNVRsOz0HryyAArDrNBP2ql1LlugVS9JMi4RLXOgAw';
 
 // Configurez l'OAuth2 client avec le token d'accès initial
 oauth2Client.setCredentials({
-  access_token: initialAccessToken,
   refresh_token: refreshToken
 });
 
-// Fonction pour vérifier et rafraîchir le token d'accès si nécessaire
-async function checkAndRefreshAccessToken(transporter) {
-  if (oauth2Client.isTokenExpiring()) {
-    console.log('expired');
-    try {
-      // Actualisez le token d'accès
-      const { token } = await oauth2Client.getAccessToken();
-      // Mettez à jour le token d'accès dans le transporteur
-      transporter.set('accessToken', token);
-    } catch (error) {
-      console.error('Error refreshing access token:', error);
-    }
-  }
+
+const getAccessToken = () => {
+    oauth2Client.getAccessToken((err, token) => {
+      if (err) {
+        throw("Failed to create access token :( " + err);
+      }
+      return token;
+    });
+
 }
 
 
 
-module.exports = (email, subject, payload, template,callback) => {
-    console.log("sendEmail, host: ", process.env.EMAIL_HOST)
+
+module.exports = async (email, subject, payload, template,callback) => {
+    console.log("sendEmail, email: ", email)
   try {
     console.log("checkpoint1")
+    const accessToken = await oauth2Client.getAccessToken();
 
+    console.log(accessToken)
     // create reusable transporter object using the default SMTP transport
     var transporter = nodemailer.createTransport({  
       service: 'gmail',  
@@ -72,7 +70,7 @@ module.exports = (email, subject, payload, template,callback) => {
       };
     };
     console.log("checkpoint4")
-    checkAndRefreshAccessToken(transporter)
+  
     // Send email
     transporter.sendMail(options(), (error, info) => {
       if (error) {
