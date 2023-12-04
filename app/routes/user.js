@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const userCtrl = require('../controller/user.controller.js');
+const auth = require('../middleware/auth');
 
 router.post('/login', userCtrl.login);
 
 //USER
+router.get('/user', auth, userCtrl.findOne);
+router.put('/editUser', auth,/* multer,*/ userCtrl.update)
 router.post('/signup', userCtrl.create);
 router.post('/requestResetPassword', userCtrl.requestPasswordReset);
 router.post("/resetPassword", userCtrl.resetPassword);

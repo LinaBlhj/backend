@@ -8,8 +8,10 @@ module.exports = (req, res, next) => {
        req.auth = {
            userId: userId
        };
+       //req.id=req.cookies['userid']
 	next();
    } catch(error) {
+        console.log(error)
        res.status(401).json({ error });
    }
 };

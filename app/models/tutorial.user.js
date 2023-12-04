@@ -61,6 +61,12 @@ module.exports = (sequelize, Sequelize) => {
     Extra: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    jobLocation: {
+      type: DataTypes.ARRAY(DataTypes.STRING)
+    },
+    interviewAv: {
+      type: DataTypes.ARRAY(DataTypes.STRING)
     }
   });
   return Utilisateur;
