@@ -1,0 +1,89 @@
+<template>
+  
+    <v-container>
+      <v-row>
+        <v-col cols="12">
+          <v-card-text style="margin-bottom: 100px;">
+            <h1 style="color: grey;" class="text-center">Verify Code</h1>
+            <br>
+            <h3 style="color: #d3d3d3b6;" class="text-center">Enter your verification code from your email or phone number
+              that we've sent</h3>
+          </v-card-text>
+        </v-col>
+      </v-row>
+      <v-row class="d-flex align-center justify-center">
+        <v-form @submit.prevent="submitForm">
+          <v-row class="d-flex align-center justify-center">
+            <v-col cols="3">
+              <v-text-field class="fld" v-model="input1" @input="limitToSingleDigit" type="number" required></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-text-field class="fld" v-model="input2" @input="limitToSingleDigit" type="number" required></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-text-field class="fld" v-model="input3" @input="limitToSingleDigit" type="number" required></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-text-field class="fld" v-model="input4" @input="limitToSingleDigit" type="number" required></v-text-field>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-row>
+      <br><br><br>
+       <v-row class="d-flex align-center justify-center">
+        <v-btn color="primary" @click="submitForm">Verify</v-btn>
+      </v-row>
+
+    </v-container>
+  
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      input1: '',
+      input2: '',
+      input3: '',
+      input4: '',
+    };
+  },
+  methods: {
+    limitToSingleDigit() {
+      // Limit the input to a single digit
+      if (this.input1.length > 1) this.input1 = this.input1.slice(0, 1);
+      if (this.input2.length > 1) this.input2 = this.input2.slice(0, 1);
+      if (this.input3.length > 1) this.input3 = this.input3.slice(0, 1);
+      if (this.input4.length > 1) this.input4 = this.input4.slice(0, 1);
+    },
+    submitForm() {
+      // Handle the form submission logic here
+      console.log('Input 1:', this.input1);
+      console.log('Input 2:', this.input2);
+      console.log('Input 3:', this.input3);
+      console.log('Input 4:', this.input4);
+      console.log(this.input1+this.input2+this.input3+this.input4)
+      this.$emit('verify-submitted', this.input1+this.input2+this.input3+this.input4);
+    },
+  },
+};
+</script>
+<style>
+/* .inpt {
+  width: 70px;
+  height: 70px;
+  /* border-radius: 10; 
+  background-color: transparent;
+  margin-left: 2px;
+  border-radius: 12px;
+  border: 1px solid var(--grey-70, #AFB0B6);
+} */
+.fld{
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  margin-left: 2px;
+  border-radius: 12px;
+  border: 1px solid var(--grey-70, #AFB0B6);
+}
+</style>

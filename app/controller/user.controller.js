@@ -225,9 +225,9 @@ catch (error) {
 
 exports.requestPasswordReset = (req, res, next) => {
   const user = userDB.findOne({ where: { email: req.body.email } }).then(user => {
-    if (!user) throw ("Email does not exist");
+    if (!user) res.status(500).send('Utilisateur non trouvé');
     console.log("email trouvé: ",user.email)
-    verificationCode = Math.floor(Math.random()*(999999 - 100000) + 100000)
+    verificationCode = Math.floor(Math.random()*(9999 - 1000) + 1000)
     //const hash = bcrypt.hash(verificationCode, 10);
 
     console.log(verificationCode)
