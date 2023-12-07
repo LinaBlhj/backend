@@ -5,18 +5,18 @@ const path = require("path");
 const { google } = require('googleapis');
 const { error } = require("console");
 const { OAuth2 } = google.auth;
+require('dotenv').config();
 //https://developers.google.com/oauthplayground/#step2&apisSelect=https%3A%2F%2Fmail.google.com%2F%2Chttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.insert%2Chttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.labels%2Chttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify%2Chttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.readonly%2Chttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.send&auth_code=4%2F0AfJohXn8NxQZoYu-STMPQuGDOhYux1D7tAtXRF3c_g1f5QvebBJu2WCQQHioR7PDqtocTA&refresh_token=1%2F%2F04r9yqIwzGvzPCgYIARAAGAQSNwF-L9IrmRysz5exbtHsA2tz8vGy5hAuRMmlJRFySaklYTCL1M8S3BvlKvXqlIeX6DpZ6I0CLwo&access_token_field=ya29.a0AfB_byBLqanm2Vba780YSCQyybjA1FzbIjRFHrC1eScQx00Bi4KSgwFyXLjq5UvNMt3E7iMY1ISDYEkpPD2yae2KCClNTGI-2e6N83HM9CbeQj46d6uJ_l3dFFOPRhtYYgt8xirD2cceaZEj0RoH_ly-WQf5ULqwp7RgaCgYKAU8SARESFQHGX2Mi0yy11K68LBDw79fju_cWDw0171&url=https%3A%2F%2F&content_type=application%2Fjson&http_method=GET&useDefaultOauthCred=checked&oauthEndpointSelect=Google&oauthAuthEndpointValue=https%3A%2F%2Faccounts.google.com%2Fo%2Foauth2%2Fv2%2Fauth&oauthTokenEndpointValue=https%3A%2F%2Foauth2.googleapis.com%2Ftoken&oauthClientId=54831938708-692lm10b85v1k2o2m2igkrr96dslbrb7.apps.googleusercontent.com&expires_in=3598&oauthClientSecret=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&access_token_issue_date=1701716169&for_access_token=ya29.a0AfB_byBLqanm2Vba780YSCQyybjA1FzbIjRFHrC1eScQx00Bi4KSgwFyXLjq5UvNMt3E7iMY1ISDYEkpPD2yae2KCClNTGI-2e6N83HM9CbeQj46d6uJ_l3dFFOPRhtYYgt8xirD2cceaZEj0RoH_ly-WQf5ULqwp7RgaCgYKAU8SARESFQHGX2Mi0yy11K68LBDw79fju_cWDw0171&includeCredentials=checked&accessTokenType=bearer&autoRefreshToken=unchecked&accessType=offline&prompt=consent&response_type=code&wrapLines=on
 
 
 const oauth2Client = new OAuth2(
-  '54831938708-692lm10b85v1k2o2m2igkrr96dslbrb7.apps.googleusercontent.com',  
-  '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', 
+  process.env.CLIENT_ID,  
+  process.env.CLIENT_SECRET, 
   'https://developers.google.com/oauthplayground'
 );
 
 // Stockez ces tokens en toute sécurité (base de données sécurisée, etc.)
-const initialAccessToken = 'ya29.a0AfB_byAqzc7sOTCkwNpZy41PsT_i3hvhbhmA7QgckRgur2IZJLuIn4nIW-v8cTkY9rwP89TU8ooYFXaeXeoyCPiORHCK4KjCXe_4lDslyCcB4G_h_AsFXnqydeFhrveqtc9y7TgxLIt1uapd7ZR5W78rKdcDgATEkFxlaCgYKAVcSARESFQHGX2MiUrTaa57UggXib95Rmcat-Q0171';
-const refreshToken = '1//04r9yqIwzGvzPCgYIARAAGAQSNwF-L9IrmRysz5exbtHsA2tz8vGy5hAuRMmlJRFySaklYTCL1M8S3BvlKvXqlIeX6DpZ6I0CLwo';
+const refreshToken = process.env.REFRESH_TOKEN;
 
 // Configurez l'OAuth2 client avec le token d'accès initial
 oauth2Client.setCredentials({
