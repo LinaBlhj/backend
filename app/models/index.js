@@ -47,10 +47,10 @@ entitiesA.job.belongsToMany(entitiesA.user, {through: 'application'});
 //Utilisateur-Enterprise (Conversation)
 const entitiesUE = {
   user: userDB,
-  job: jobDB,
+  enterprise: enterpriseDB,
 };
-entitiesJU.user.belongsToMany(entitiesJU.job, {through: 'ConversationJU'});
-entitiesJU.job.belongsToMany(entitiesJU.user, {through: 'ConversationJU'});
+entitiesUE.user.belongsToMany(entitiesUE.enterprise, {through: 'ConversationUE'});
+entitiesUE.enterprise.belongsToMany(entitiesUE.user, {through: 'ConversationUE'});
 
 
 //Foreign keys//

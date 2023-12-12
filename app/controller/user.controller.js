@@ -8,7 +8,7 @@ const PDFDocument = require('pdfkit');
 //requiered definitions for database
 const db = require("../models");
 const userDB = db.utilisateur;
-const jobDB = db.job;
+const enterpriseDB = db.entreprise;
 const Op = db.Sequelize.Op;
 let verificationCode=0;
 //User//
@@ -147,14 +147,15 @@ exports.associate  =async (req, res, next) => {
     UtilisateurID: req.body.userID,
     JobID: req.body.JobID
   })*/
-  const job =await jobDB.findByPk(req.body.jobID)
-  console.log(job);
-  user.addJob(job);
+  const enterprise =await enterpriseDB.findByPk(req.body.enterpriseID);
+  console.log(enterprise);
+  console.log(user);
+  user.addEntreprise(enterprise);
   next();
 }
 catch (error) {
   console.error(error);
-  res.status(500).send('Cannot associate a user to a job');
+  res.status(500).send('Cannot associate a user to an entreprise');
 }
 
   };
