@@ -44,27 +44,28 @@ const entitiesA = {
 entitiesA.user.belongsToMany(entitiesA.job, {through: 'application'});
 entitiesA.job.belongsToMany(entitiesA.user, {through: 'application'});
 
-//Job-User (ConversationUser)
-const entitiesJU = {
+//Utilisateur-Enterprise (Conversation)
+const entitiesUE = {
   user: userDB,
   job: jobDB,
 };
 entitiesJU.user.belongsToMany(entitiesJU.job, {through: 'ConversationJU'});
 entitiesJU.job.belongsToMany(entitiesJU.user, {through: 'ConversationJU'});
 
-//Job-Enterprise (ConversationEnterprise)
-const entitiesJE = {
-  user: userDB,
-  job: jobDB,
-};
-entitiesJE.user.belongsToMany(entitiesJE.job, {through: 'ConversationJE'});
-entitiesJE.job.belongsToMany(entitiesJE.user, {through: 'ConversationJE'});
 
+//Foreign keys//
+
+//login-user
 userDB.hasOne(loginDB);
 loginDB.belongsTo(userDB);
 
+//login-enterprise
 enterpriseDB.hasOne(loginDB);
 loginDB.belongsTo(enterpriseDB);
+
+//job-enterprise
+enterpriseDB.hasMany(jobDB);
+jobDB.belongsTo(enterpriseDB);
 
 //Enterprise-User (Contract)
 /*const Contract = sequelize.define('Contract', {
