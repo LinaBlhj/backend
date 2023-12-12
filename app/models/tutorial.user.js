@@ -1,6 +1,5 @@
 // Import des modules nécessaires pour Sequelize
 const { DataTypes, Model } = require("sequelize");
-const Job = require('../models/tutorial.job.js');
 // Création du modèle Utilisateur pour Sequelize
 class Utilisateur extends Model {}
 
@@ -57,5 +56,6 @@ module.exports = (sequelize, Sequelize) => {
       type: DataTypes.ARRAY(DataTypes.STRING)
     }
   });
+  
   return Utilisateur;
 };

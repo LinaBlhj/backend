@@ -29,9 +29,13 @@ db.job = require("./tutorial.job.js")(sequelize, Sequelize);
 
 /////
 const userDB = db.utilisateur;
+const enterpriseDB = db.entreprise;
+const loginDB = db.login;
 const jobDB = db.job;
 
+
 //associations
+
 //Job-User (Application)
 const entitiesA = {
   user: userDB,
@@ -56,6 +60,11 @@ const entitiesJE = {
 entitiesJE.user.belongsToMany(entitiesJE.job, {through: 'ConversationJE'});
 entitiesJE.job.belongsToMany(entitiesJE.user, {through: 'ConversationJE'});
 
+userDB.hasOne(loginDB);
+loginDB.belongsTo(userDB);
+
+enterpriseDB.hasOne(loginDB);
+loginDB.belongsTo(enterpriseDB);
 
 //Enterprise-User (Contract)
 /*const Contract = sequelize.define('Contract', {
