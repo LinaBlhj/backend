@@ -34,7 +34,7 @@ const loginDB = db.login;
 const jobDB = db.job;
 
 
-//associations
+//associations M-M
 
 //Job-User (Application)
 const entitiesA = {
@@ -53,7 +53,7 @@ entitiesUE.user.belongsToMany(entitiesUE.enterprise, {through: 'ConversationUE'}
 entitiesUE.enterprise.belongsToMany(entitiesUE.user, {through: 'ConversationUE'});
 
 
-//Foreign keys//
+//Foreign keys O-O & O-M//
 
 //login-user
 userDB.hasOne(loginDB);
