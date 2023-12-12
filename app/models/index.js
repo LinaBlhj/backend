@@ -23,6 +23,8 @@ db.sequelize = sequelize;
 
 db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.utilisateur = require("./tutorial.user.js")(sequelize, Sequelize);
+db.login = require("./tutorial.login.js")(sequelize, Sequelize);
+db.entreprise = require("./enterprise.js")(sequelize, Sequelize);
 db.job = require("./tutorial.job.js")(sequelize, Sequelize);
 
 /////
@@ -38,13 +40,21 @@ const entitiesA = {
 entitiesA.user.belongsToMany(entitiesA.job, {through: 'application'});
 entitiesA.job.belongsToMany(entitiesA.user, {through: 'application'});
 
-//Job-User (Conversation)
-const entitiesC = {
+//Job-User (ConversationUser)
+const entitiesJU = {
   user: userDB,
   job: jobDB,
 };
-entitiesC.user.belongsToMany(entitiesC.job, {through: 'Conversation'});
-entitiesC.job.belongsToMany(entitiesC.user, {through: 'Conversation'});
+entitiesJU.user.belongsToMany(entitiesJU.job, {through: 'ConversationJU'});
+entitiesJU.job.belongsToMany(entitiesJU.user, {through: 'ConversationJU'});
+
+//Job-Enterprise (ConversationEnterprise)
+const entitiesJE = {
+  user: userDB,
+  job: jobDB,
+};
+entitiesJE.user.belongsToMany(entitiesJE.job, {through: 'ConversationJE'});
+entitiesJE.job.belongsToMany(entitiesJE.user, {through: 'ConversationJE'});
 
 
 //Enterprise-User (Contract)

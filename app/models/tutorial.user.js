@@ -18,18 +18,6 @@ module.exports = (sequelize, Sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true, // Ajoute une validation d'e-mail
-      },
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false
