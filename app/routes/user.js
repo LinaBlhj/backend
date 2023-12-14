@@ -12,7 +12,7 @@ router.put('/editUser', auth,/* multer,*/ userCtrl.update)
 router.post('/signup', userCtrl.create);
 router.post('/requestResetPassword', userCtrl.requestPasswordReset);
 router.post("/resetPassword", userCtrl.resetPassword);
-
+router.post('/verifyCode', userCtrl.verifyCode)
 //associate job
 router.post('/associate', userCtrl.associate);
 

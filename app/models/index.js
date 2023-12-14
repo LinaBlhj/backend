@@ -37,7 +37,7 @@ const entitiesA = {
 };
 entitiesA.user.belongsToMany(entitiesA.job, {through: 'application'});
 entitiesA.job.belongsToMany(entitiesA.user, {through: 'application'});
-
+/*
 //Job-User (Conversation)
 const entitiesC = {
   user: userDB,
@@ -45,7 +45,7 @@ const entitiesC = {
 };
 entitiesC.user.belongsToMany(entitiesC.job, {through: 'Conversation'});
 entitiesC.job.belongsToMany(entitiesC.user, {through: 'Conversation'});
-
+*/
 
 //Enterprise-User (Contract)
 /*const Contract = sequelize.define('Contract', {

@@ -143,14 +143,16 @@ exports.login = (req, res, next) => {
 };
 
 exports.associate  =async (req, res, next) => {
+  console.log(req.body.jobId);
+  console.log(req.body.userId)
   try {
-  const user =await userDB.findByPk(req.body.userID);
+  const user =await userDB.findByPk(req.body.userId);
   
   /*userDB.create({
     UtilisateurID: req.body.userID,
     JobID: req.body.JobID
   })*/
-  const job =await jobDB.findByPk(req.body.jobID)
+  const job =await jobDB.findByPk(req.body.jobId)
   console.log(job);
   user.addJob(job);
   next();
@@ -162,65 +164,6 @@ catch (error) {
 
   };
 
-exports.associate  =async (req, res, next) => {
-  try {
-  const user =await userDB.findByPk(req.body.userID);
-  
-  /*userDB.create({
-    UtilisateurID: req.body.userID,
-    JobID: req.body.JobID
-  })*/
-  const job =await jobDB.findByPk(req.body.jobID)
-  console.log(job);
-  user.addJob(job);
-  next();
-}
-catch (error) {
-  console.error(error);
-  res.status(500).send('Internal Server Error');
-}
-
-  };
-
-exports.associate  =async (req, res, next) => {
-  try {
-  const user =await userDB.findByPk(req.body.userID);
-  
-  /*userDB.create({
-    UtilisateurID: req.body.userID,
-    JobID: req.body.JobID
-  })*/
-  const job =await jobDB.findByPk(req.body.jobID)
-  console.log(job);
-  user.addJob(job);
-  next();
-}
-catch (error) {
-  console.error(error);
-  res.status(500).send('Internal Server Error');
-}
-
-  };
-
-exports.associate  =async (req, res, next) => {
-  try {
-  const user =await userDB.findByPk(req.body.userID);
-  
-  /*userDB.create({
-    UtilisateurID: req.body.userID,
-    JobID: req.body.JobID
-  })*/
-  const job =await jobDB.findByPk(req.body.jobID)
-  console.log(job);
-  user.addJob(job);
-  next();
-}
-catch (error) {
-  console.error(error);
-  res.status(500).send('Internal Server Error');
-}
-
-  };
 
 
 exports.requestPasswordReset = (req, res, next) => {
@@ -231,7 +174,7 @@ exports.requestPasswordReset = (req, res, next) => {
     //const hash = bcrypt.hash(verificationCode, 10);
 
     console.log(verificationCode)
-    sendEmail(user.email,"Password Reset Request",
+    /*sendEmail(user.email,"Password Reset Request",
       {
         name: user.nom,
         code: verificationCode,
@@ -245,11 +188,24 @@ exports.requestPasswordReset = (req, res, next) => {
           console.log(`success`)
           res.sendStatus(200)
          }
-  })
+  })*/
     
   })
 
 };
+
+exports.verifyCode = (req, res, next) => {
+  let userCode = req.body.userCode;
+  console.log(verificationCode, " ", userCode);
+
+  if (verificationCode != userCode) {
+    console.log(`Code invalide`);
+    res.sendStatus(400); // Utilisation de 400 pour indiquer une mauvaise requête de l'utilisateur
+  } else {
+    res.sendStatus(200);
+  }
+};
+
 
 exports.resetPassword = async (req, res, next) => {
   /*let passwordResetToken = await Token.findOne({ userId });
@@ -263,16 +219,13 @@ exports.resetPassword = async (req, res, next) => {
   let userCode=req.body.userCode
   let password=req.body.password
   let userId=req.body.userId
-  console.log(verificationCode, " ", userCode)
-  if(verificationCode!=userCode) {
-    console.log(`Code invalide`)
-    res.sendStatus(200)
-  }
+
   bcrypt.hash(password, 10).then(hash => {
     userDB.update({ password: hash }, { where: { id: userId } });
+    res.sendStatus(200)
   })
 
-  userDB.findByPk(userId).then(user => {
+  /*userDB.findByPk(userId).then(user => {
       sendEmail(
         user.email,
         "Password Reset Successfully",
@@ -291,7 +244,7 @@ exports.resetPassword = async (req, res, next) => {
       }
       );
 
-  })
+  })*/
 
   //await passwordResetToken.deleteOne();
   return true;
