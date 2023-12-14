@@ -7,27 +7,19 @@ var nodemailer = require('nodemailer');
 const PDFDocument = require('pdfkit');
 //requiered definitions for database
 const db = require("../models");
-const userDB = db.utilisateur;
-const enterpriseDB = db.entreprise;
+const loginDB = db.login;
+const jobDB = db.job;
 const Op = db.Sequelize.Op;
 let verificationCode=0;
-//User//
+//Login//
 //creation
-exports.create =  (req, res, next) => 
-{
+exports.create =  (req, res, next) => {
   console.log(req.body)
-  userDB.create({
-    prenom: req.body.firstName,
-    nom: req.body.lastName,
-    dateOfBirth: req.body.dateB,
-    phoneNumber: req.body.phone,
-    jobSector: req.body.jobSector,
-    jobType: req.body.jobType,
-    Hours: req.body.Hours,
-    Day: req.body.Day,
-    Week: req.body.Week,
-    Shift: req.body.Shift,
-    Extra: req.body.Extra
+  bcrypt.hash(req.body.password, 10).then(hash => {
+    console.log('hash ok')
+       loginDB.create({
+        email: req.body.email,
+        password: req.body.password
     }).then(data => {
       res.send(data);
     })
@@ -37,13 +29,13 @@ exports.create =  (req, res, next) =>
           err.message || "Some error occurred while creating the Tutorial."
       });
     });
-  
+  })
 }
-    
 // Update a User by the id in the request
 exports.update = (req, res, next) => {
   let id=req.auth.userId;
   console.log(id)
+  
   /*try {
     console.log(req.headers.authorization)
     const token = req.headers.authorization.split(' ')[1]
@@ -137,113 +129,4 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
-};
-
-exports.associate  =async (req, res, next) => {
-  console.log(req.body.jobId);
-  console.log(req.body.userId)
-  try {
-  const user =await userDB.findByPk(req.body.userId);
-  
-  /*userDB.create({
-    UtilisateurID: req.body.userID,
-    JobID: req.body.JobID
-  })*/
-  const enterprise =await enterpriseDB.findByPk(req.body.enterpriseID);
-  console.log(enterprise);
-  console.log(user);
-  user.addEntreprise(enterprise);
-  next();
-}
-catch (error) {
-  console.error(error);
-  res.status(500).send('Cannot associate a user to an entreprise');
-}
-
-  };
-
-
-
-exports.requestPasswordReset = (req, res, next) => {
-  const user = userDB.findOne({ where: { email: req.body.email } }).then(user => {
-    if (!user) res.status(500).send('Utilisateur non trouvé');
-    console.log("email trouvé: ",user.email)
-    verificationCode = Math.floor(Math.random()*(9999 - 1000) + 1000)
-    //const hash = bcrypt.hash(verificationCode, 10);
-
-    console.log(verificationCode)
-    /*sendEmail(user.email,"Password Reset Request",
-      {
-        name: user.nom,
-        code: verificationCode,
-      },
-      "./template/requestResetPassword.handlebars",(err, data) => {
-      if (err){
-          console.log(err)
-          res.sendStatus(500)
-      }
-      else{
-          console.log(`success`)
-          res.sendStatus(200)
-         }
-  })*/
-    
-  })
-
-};
-
-exports.verifyCode = (req, res, next) => {
-  let userCode = req.body.userCode;
-  console.log(verificationCode, " ", userCode);
-
-  if (verificationCode != userCode) {
-    console.log(`Code invalide`);
-    res.sendStatus(400); // Utilisation de 400 pour indiquer une mauvaise requête de l'utilisateur
-  } else {
-    res.sendStatus(200);
-  }
-};
-
-
-exports.resetPassword = async (req, res, next) => {
-  /*let passwordResetToken = await Token.findOne({ userId });
-  if (!passwordResetToken) {
-    throw new Error("Invalid or expired password reset token");
-  }
-  const isValid = await bcrypt.compare(token, passwordResetToken.token);
-  if (!isValid) {
-    throw new Error("Invalid or expired password reset token");
-  }*/
-  let userCode=req.body.userCode
-  let password=req.body.password
-  let userId=req.body.userId
-
-  bcrypt.hash(password, 10).then(hash => {
-    userDB.update({ password: hash }, { where: { id: userId } });
-    res.sendStatus(200)
-  })
-
-  /*userDB.findByPk(userId).then(user => {
-      sendEmail(
-        user.email,
-        "Password Reset Successfully",
-        {
-          name: user.nom,
-        },
-        "./template/resetPassword.handlebars",(err, data) => {
-          if (err){
-              console.log(err)
-              res.sendStatus(500)
-          }
-          else{
-              console.log(`success`)
-              res.sendStatus(200)
-            }
-      }
-      );
-
-  })*/
-
-  //await passwordResetToken.deleteOne();
-  return true;
 };

@@ -7,27 +7,22 @@ var nodemailer = require('nodemailer');
 const PDFDocument = require('pdfkit');
 //requiered definitions for database
 const db = require("../models");
-const userDB = db.utilisateur;
 const enterpriseDB = db.entreprise;
+const jobDB = db.job;
 const Op = db.Sequelize.Op;
 let verificationCode=0;
-//User//
+//Enterprise//
 //creation
 exports.create =  (req, res, next) => 
 {
   console.log(req.body)
-  userDB.create({
-    prenom: req.body.firstName,
-    nom: req.body.lastName,
-    dateOfBirth: req.body.dateB,
-    phoneNumber: req.body.phone,
-    jobSector: req.body.jobSector,
-    jobType: req.body.jobType,
-    Hours: req.body.Hours,
-    Day: req.body.Day,
-    Week: req.body.Week,
-    Shift: req.body.Shift,
-    Extra: req.body.Extra
+  enterpriseDB.create({
+    enterpriseName: req.body.enterpriseName,
+    enterpriseRepresentative: req.body.enterpriseRepresentative,
+    phoneNumber: req.body.phoneNumber,
+    location: req.body.location,
+    website: req.body.website,
+    sector: req.body.sector
     }).then(data => {
       res.send(data);
     })
@@ -140,28 +135,24 @@ exports.login = (req, res, next) => {
 };
 
 exports.associate  =async (req, res, next) => {
-  console.log(req.body.jobId);
-  console.log(req.body.userId)
   try {
-  const user =await userDB.findByPk(req.body.userId);
+  const user =await userDB.findByPk(req.body.userID);
   
   /*userDB.create({
     UtilisateurID: req.body.userID,
     JobID: req.body.JobID
   })*/
-  const enterprise =await enterpriseDB.findByPk(req.body.enterpriseID);
-  console.log(enterprise);
-  console.log(user);
-  user.addEntreprise(enterprise);
+  const job =await jobDB.findByPk(req.body.jobID)
+  console.log(job);
+  user.addJob(job);
   next();
 }
 catch (error) {
   console.error(error);
-  res.status(500).send('Cannot associate a user to an entreprise');
+  res.status(500).send('Cannot associate a user to a job');
 }
 
   };
-
 
 
 exports.requestPasswordReset = (req, res, next) => {
@@ -172,7 +163,7 @@ exports.requestPasswordReset = (req, res, next) => {
     //const hash = bcrypt.hash(verificationCode, 10);
 
     console.log(verificationCode)
-    /*sendEmail(user.email,"Password Reset Request",
+    sendEmail(user.email,"Password Reset Request",
       {
         name: user.nom,
         code: verificationCode,
@@ -186,24 +177,11 @@ exports.requestPasswordReset = (req, res, next) => {
           console.log(`success`)
           res.sendStatus(200)
          }
-  })*/
+  })
     
   })
 
 };
-
-exports.verifyCode = (req, res, next) => {
-  let userCode = req.body.userCode;
-  console.log(verificationCode, " ", userCode);
-
-  if (verificationCode != userCode) {
-    console.log(`Code invalide`);
-    res.sendStatus(400); // Utilisation de 400 pour indiquer une mauvaise requête de l'utilisateur
-  } else {
-    res.sendStatus(200);
-  }
-};
-
 
 exports.resetPassword = async (req, res, next) => {
   /*let passwordResetToken = await Token.findOne({ userId });
@@ -217,13 +195,16 @@ exports.resetPassword = async (req, res, next) => {
   let userCode=req.body.userCode
   let password=req.body.password
   let userId=req.body.userId
-
+  console.log(verificationCode, " ", userCode)
+  if(verificationCode!=userCode) {
+    console.log(`Code invalide`)
+    res.sendStatus(200)
+  }
   bcrypt.hash(password, 10).then(hash => {
     userDB.update({ password: hash }, { where: { id: userId } });
-    res.sendStatus(200)
   })
 
-  /*userDB.findByPk(userId).then(user => {
+  userDB.findByPk(userId).then(user => {
       sendEmail(
         user.email,
         "Password Reset Successfully",
@@ -242,7 +223,7 @@ exports.resetPassword = async (req, res, next) => {
       }
       );
 
-  })*/
+  })
 
   //await passwordResetToken.deleteOne();
   return true;

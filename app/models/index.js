@@ -23,13 +23,19 @@ db.sequelize = sequelize;
 
 db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.utilisateur = require("./tutorial.user.js")(sequelize, Sequelize);
+db.login = require("./tutorial.login.js")(sequelize, Sequelize);
+db.entreprise = require("./enterprise.js")(sequelize, Sequelize);
 db.job = require("./tutorial.job.js")(sequelize, Sequelize);
 
 /////
 const userDB = db.utilisateur;
+const enterpriseDB = db.entreprise;
+const loginDB = db.login;
 const jobDB = db.job;
 
-//associations
+
+//associations M-M
+
 //Job-User (Application)
 const entitiesA = {
   user: userDB,
@@ -37,15 +43,29 @@ const entitiesA = {
 };
 entitiesA.user.belongsToMany(entitiesA.job, {through: 'application'});
 entitiesA.job.belongsToMany(entitiesA.user, {through: 'application'});
-/*
-//Job-User (Conversation)
-const entitiesC = {
+
+//Utilisateur-Enterprise (Conversation)
+const entitiesUE = {
   user: userDB,
-  job: jobDB,
+  enterprise: enterpriseDB,
 };
-entitiesC.user.belongsToMany(entitiesC.job, {through: 'Conversation'});
-entitiesC.job.belongsToMany(entitiesC.user, {through: 'Conversation'});
-*/
+entitiesUE.user.belongsToMany(entitiesUE.enterprise, {through: 'ConversationUE'});
+entitiesUE.enterprise.belongsToMany(entitiesUE.user, {through: 'ConversationUE'});
+
+
+//Foreign keys O-O & O-M//
+
+//login-user
+userDB.hasOne(loginDB);
+loginDB.belongsTo(userDB);
+
+//login-enterprise
+enterpriseDB.hasOne(loginDB);
+loginDB.belongsTo(enterpriseDB);
+
+//job-enterprise
+enterpriseDB.hasMany(jobDB);
+jobDB.belongsTo(enterpriseDB);
 
 //Enterprise-User (Contract)
 /*const Contract = sequelize.define('Contract', {
