@@ -162,16 +162,11 @@ exports.associate  =async (req, res, next) => {
   //console.log(req.body.jobId);
   console.log(req.body.userId)
   try {
-  const user =await userDB.findByPk(req.body.userId);
-  
-  /*userDB.create({
-    UtilisateurID: req.body.userID,
-    JobID: req.body.JobID
-  })*/
+  const user =await userDB.findByPk(req.body.userID);
   const enterprise =await enterpriseDB.findByPk(req.body.enterpriseID);
   console.log(enterprise);
-  console.log(user);
-  user.addEntreprise(enterprise);
+  console.log(req.body.userID);
+  user.addEntreprise(enterprise, {through: {content: req.body.content}});
   next();
 }
 catch (error) {

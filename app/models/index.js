@@ -47,11 +47,13 @@ entitiesA.job.belongsToMany(entitiesA.user, {through: 'application'});
 //Utilisateur-Enterprise (Conversation)
 const entitiesUE = {
   user: userDB,
-  enterprise: enterpriseDB,
-  content: Sequelize.DataTypes.STRING
+  enterprise: enterpriseDB
 };
-entitiesUE.user.belongsToMany(entitiesUE.enterprise, {through: 'ConversationUE'});
-entitiesUE.enterprise.belongsToMany(entitiesUE.user, {through: 'ConversationUE'});
+const ConversationUE = sequelize.define('ConversationUE',{
+  content: Sequelize.STRING
+});
+entitiesUE.user.belongsToMany(entitiesUE.enterprise, {through: ConversationUE});
+entitiesUE.enterprise.belongsToMany(entitiesUE.user, {through: ConversationUE});
 
 
 //Foreign keys O-O & O-M//

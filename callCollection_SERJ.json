@@ -1,25 +1,63 @@
 {
     "client": "Thunder Client",
     "collectionName": "SERJ",
-    "dateExported": "2023-11-14T15:46:14.118Z",
+    "dateExported": "2023-12-15T13:17:35.009Z",
     "version": "1.1",
     "folders": [],
     "requests": [
+        {
+            "_id": "5d3c6ab9-3989-4a5d-bd5e-e9cad54dc135",
+            "colId": "31a5ef00-8bdb-4a0b-9c7f-b533ab1fc2b5",
+            "containerId": "",
+            "name": "create login",
+            "url": "localhost:3005/api/auth/create",
+            "method": "POST",
+            "sortNum": 5000,
+            "created": "2023-12-12T11:09:56.854Z",
+            "modified": "2023-12-12T12:26:33.960Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"johndoe@example.com\",\n  \"password\": \"password123\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
         {
             "_id": "b34bda60-e9a0-41c1-b888-6cfe0d6b5324",
             "colId": "31a5ef00-8bdb-4a0b-9c7f-b533ab1fc2b5",
             "containerId": "",
             "name": "create user",
-            "url": "localhost:3005/api/auth/signup",
+            "url": "localhost:3005/api/user/signup",
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-11-14T15:41:01.517Z",
-            "modified": "2023-11-14T15:43:46.243Z",
+            "modified": "2023-12-15T12:39:38.708Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"dateB\": \"1990-01-01\",\r\n  \"email\": \"johndoe@example.com\",\r\n  \"password\": \"password123\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"jobSector\": \"IT\",\r\n  \"jobType\": \"Full-time\",\r\n  \"Hours\": \"8\",\r\n  \"Day\": \"Monday\",\r\n  \"Week\": \"1\",\r\n  \"Shift\": \"Morning\",\r\n  \"Extra\": \"None\"\r\n}",
+                "raw": "{\n  \"type\": \"user\",\n  \"firstName\": \"Jddqs\",\n  \"lastName\": \"Doe\",\n  \"dateB\": \"1990-01-01\",\n  \"phone\": \"123-456-7890\",\n  \"jobSector\": \"IT\",\n  \"jobType\": \"Full-time\",\n  \"Hours\": \"8\",\n  \"Day\": \"Monday\",\n  \"Week\": \"1\",\n  \"Shift\": \"Morning\",\n  \"Extra\": \"None\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "2a889e1e-f625-41a3-93d8-d8cd66c28c0a",
+            "colId": "31a5ef00-8bdb-4a0b-9c7f-b533ab1fc2b5",
+            "containerId": "",
+            "name": "create enterprise",
+            "url": "localhost:3005/api/enterprise/create",
+            "method": "POST",
+            "sortNum": 13750,
+            "created": "2023-12-12T12:50:02.876Z",
+            "modified": "2023-12-15T12:46:53.338Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"type\": \"entreprise\",\n    \"enterpriseName\": \"Acme Corporation\",\n    \"enterpriseRepresentative\": \"John Doe\",\n    \"phoneNumber\": \"+1-123-456-7890\",\n    \"location\": \"123 Main St, Anytown, USA\",\n    \"website\": \"https://www.acme.com\",\n    \"sector\": \"Manufacturing\"\n}",
                 "form": []
             },
             "tests": []
@@ -48,18 +86,32 @@
             "colId": "31a5ef00-8bdb-4a0b-9c7f-b533ab1fc2b5",
             "containerId": "",
             "name": "create association job/user",
-            "url": "localhost:3005/api/auth/associate",
+            "url": "localhost:3005/api/user/associate",
             "method": "POST",
             "sortNum": 20000,
             "created": "2023-11-14T15:41:07.708Z",
-            "modified": "2023-11-14T15:44:06.616Z",
+            "modified": "2023-12-15T13:02:52.468Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"userID\": 1,\n  \"jobID\": 1\n  }",
+                "raw": "{\n  \"userID\": 1,\n  \"enterpriseID\": 1,\n  \"content\":\"blablabla\"\n  }",
                 "form": []
             },
+            "tests": []
+        },
+        {
+            "_id": "7653299d-cd7d-4acc-ada5-fd3b227dcb4f",
+            "colId": "31a5ef00-8bdb-4a0b-9c7f-b533ab1fc2b5",
+            "containerId": "",
+            "name": "create contract",
+            "url": "localhost:3005/api/contract/create",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-11-21T10:15:26.728Z",
+            "modified": "2023-11-21T10:15:44.549Z",
+            "headers": [],
+            "params": [],
             "tests": []
         }
     ]
