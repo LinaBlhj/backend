@@ -27,7 +27,7 @@ exports.create =  (req, res, next) =>
     sector: req.body.sector
     }).then(data => {
       console.log(data)
-      req.body.entrepriseid=data.id
+      req.body.enterpriseid=data.id
       next();
     })
     .catch(err => {
@@ -40,8 +40,11 @@ exports.create =  (req, res, next) =>
   else if (!req.body.type) {
     res.status(500).json({
       message:
-        "Type was not entreprise."
+        "Type was not defined."
     });
+  }
+  else {
+    next();
   }
   
 }

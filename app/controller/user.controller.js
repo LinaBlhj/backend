@@ -40,13 +40,21 @@ exports.create =  (req, res, next) =>
           err.message || "Some error occurred while creating the user."
       });
     });
-    //next();
+  }
+  else if(req.body.type=="enterprise" || req.body.type=="entreprise") {
+    next();
   }
   else if (!req.body.type) {
     res.status(500).json({
       message:
-        "Type was not user."
+        "Type was not defined."
     });
+  }
+  else {
+    res.status(500).json({
+      message:
+        "Type was not user or enterprise."
+    });    
   }
   
 }
@@ -151,7 +159,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.associate  =async (req, res, next) => {
-  console.log(req.body.jobId);
+  //console.log(req.body.jobId);
   console.log(req.body.userId)
   try {
   const user =await userDB.findByPk(req.body.userId);

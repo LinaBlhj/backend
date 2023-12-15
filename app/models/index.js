@@ -48,6 +48,7 @@ entitiesA.job.belongsToMany(entitiesA.user, {through: 'application'});
 const entitiesUE = {
   user: userDB,
   enterprise: enterpriseDB,
+  content: Sequelize.DataTypes.STRING
 };
 entitiesUE.user.belongsToMany(entitiesUE.enterprise, {through: 'ConversationUE'});
 entitiesUE.enterprise.belongsToMany(entitiesUE.user, {through: 'ConversationUE'});

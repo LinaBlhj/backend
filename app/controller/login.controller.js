@@ -22,7 +22,7 @@ exports.create =  (req, res, next) => {
     uId=req.body.userid
   }
   else if(req.body.type=="entreprise") {
-    eId=req.body.id
+    eId=req.body.enterpriseid
   }
   bcrypt.hash(req.body.password, 10).then(hash => {
     console.log('hash ok')
