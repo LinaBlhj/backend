@@ -16,6 +16,8 @@ let verificationCode=0;
 exports.create =  (req, res, next) => 
 {
   console.log(req.body)
+
+  if(req.body.type=="entreprise"){
   enterpriseDB.create({
     enterpriseName: req.body.enterpriseName,
     enterpriseRepresentative: req.body.enterpriseRepresentative,
@@ -24,7 +26,9 @@ exports.create =  (req, res, next) =>
     website: req.body.website,
     sector: req.body.sector
     }).then(data => {
-      res.send(data);
+      console.log(data)
+      req.body.entrepriseid=data.id
+      next();
     })
     .catch(err => {
       res.status(500).send({
@@ -32,6 +36,13 @@ exports.create =  (req, res, next) =>
           err.message || "Some error occurred while creating the Tutorial."
       });
     });
+  }
+  else if (!req.body.type) {
+    res.status(500).json({
+      message:
+        "Type was not entreprise."
+    });
+  }
   
 }
     

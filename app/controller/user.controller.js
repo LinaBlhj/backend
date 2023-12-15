@@ -16,6 +16,7 @@ let verificationCode=0;
 exports.create =  (req, res, next) => 
 {
   console.log(req.body)
+  if(req.body.type=="user"){
   userDB.create({
     prenom: req.body.firstName,
     nom: req.body.lastName,
@@ -29,14 +30,24 @@ exports.create =  (req, res, next) =>
     Shift: req.body.Shift,
     Extra: req.body.Extra
     }).then(data => {
-      res.send(data);
+      console.log(data)
+      req.body.userid=data.id
+      next();
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tutorial."
+          err.message || "Some error occurred while creating the user."
       });
     });
+    //next();
+  }
+  else if (!req.body.type) {
+    res.status(500).json({
+      message:
+        "Type was not user."
+    });
+  }
   
 }
     

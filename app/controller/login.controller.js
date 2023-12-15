@@ -11,15 +11,26 @@ const loginDB = db.login;
 const jobDB = db.job;
 const Op = db.Sequelize.Op;
 let verificationCode=0;
+const userCtrl = require('./user.controller.js');
 //Login//
 //creation
 exports.create =  (req, res, next) => {
   console.log(req.body)
+  let uId = null;
+  let eId = null;
+  if(req.body.type=="user") {
+    uId=req.body.userid
+  }
+  else if(req.body.type=="entreprise") {
+    eId=req.body.id
+  }
   bcrypt.hash(req.body.password, 10).then(hash => {
     console.log('hash ok')
        loginDB.create({
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        UtilisateurId: uId,
+        EntrepriseId: eId
     }).then(data => {
       res.send(data);
     })
