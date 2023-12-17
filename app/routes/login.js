@@ -7,5 +7,7 @@ const userCtrl = require('../controller/user.controller.js');
 const enterpriseCtrl = require('../controller/enterprise.controller.js');
 //LOGIN
 router.post('/signup', userCtrl.create, enterpriseCtrl.create, loginCtrl.create);
+router.post('/login', loginCtrl.login);
 
+router.post('/logout', loginCtrl.logout);
 module.exports = router;

@@ -92,7 +92,7 @@ exports.update = (req, res, next) => {
 exports.findOne = (req, res, next) => {
   /*const id = req.params.id;
   console.log(req.params)*/
-  let userId=req.auth.userId;
+  let userId=req.params.id;
   /*try {
     console.log(req.headers.authorization)
     const token = req.headers.authorization.split(' ')[1]
@@ -105,7 +105,7 @@ exports.findOne = (req, res, next) => {
   } catch (error) {
     res.status(401).json({ error: 'Token invalid' });
   }*/
-  userDB.findByPk(userId)
+  enterpriseDB.findByPk(userId)
     .then(data => {
       if (data) {
         res.send(data);

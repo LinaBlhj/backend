@@ -9,6 +9,7 @@ const PDFDocument = require('pdfkit');
 const db = require("../models");
 const userDB = db.utilisateur;
 const enterpriseDB = db.entreprise;
+const ConversationUE = db.ConversationUE;
 const Op = db.Sequelize.Op;
 let verificationCode=0;
 //User//
@@ -102,7 +103,7 @@ exports.update = (req, res, next) => {
 exports.findOne = (req, res, next) => {
   /*const id = req.params.id;
   console.log(req.params)*/
-  let userId=req.auth.userId;
+  let userId=req.params.id;
   /*try {
     console.log(req.headers.authorization)
     const token = req.headers.authorization.split(' ')[1]
@@ -121,13 +122,13 @@ exports.findOne = (req, res, next) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find user with id=${id}.`
+          message: `Cannot find user with id=${userId}.`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving user with id=" + id
+        message: "Error retrieving user with id=" + userId
       });
     });
 
@@ -175,7 +176,31 @@ catch (error) {
 }
 
   };
-
+  exports.getConversation = async (req, res, next) => {
+    try {
+      const userId = req.auth.userId; // Assurez-vous que le paramètre est correctement extrait de votre route
+  
+      // Recherchez l'utilisateur par son identifiant
+      const user = await userDB.findByPk(userId);
+  
+      // Vérifiez si l'utilisateur existe
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+  
+    // Utilisez la méthode magique "get" pour obtenir la conversation associée directement à partir de l'utilisateur
+    const conversation = await user.getEntreprises({
+      through: { model: ConversationUE, attributes: ['content'] },
+    });
+  
+      // Envoyez la conversation en tant que réponse
+      res.json(conversation);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error retrieving conversation');
+    }
+  };
+  
 
 
 exports.requestPasswordReset = (req, res, next) => {

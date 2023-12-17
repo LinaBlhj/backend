@@ -28,7 +28,7 @@ exports.create =  (req, res, next) => {
     console.log('hash ok')
        loginDB.create({
         email: req.body.email,
-        password: req.body.password,
+        password: hash,
         UtilisateurId: uId,
         EntrepriseId: eId
     }).then(data => {
@@ -99,7 +99,7 @@ exports.findOne = (req, res, next) => {
   } catch (error) {
     res.status(401).json({ error: 'Token invalid' });
   }*/
-  userDB.findByPk(userId)
+  loginDB.findByPk(userId)
     .then(data => {
       if (data) {
         res.send(data);
@@ -118,26 +118,51 @@ exports.findOne = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  userDB.findOne({ where: { email: req.body.email } })
+  loginDB.findOne({ where: { email: req.body.email } })
     .then(user => {
       if (!user) {
         return res.status(401).json({ error: 'Utilisateur non trouvé !' });
       }
+
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
+
+          const id = user.UtilisateurId == null ? user.EntrepriseId : user.UtilisateurId;
+          const type = user.UtilisateurId == null ? "entreprise" : "user";
+
+          // Stockez l'ID et le type dans la session
+          req.session.regenerate(function (err) {
+            if (err) next(err)
+        
+          req.session.userId = id;
+          req.session.userType = type;
+
+          console.log('Session créée avec userId:', req.session);
+          req.session.save(function (err) {
+            if (err) return err
+          });
           res.status(200).json({
-            userId: user.id,
-            token: jwt.sign(
-              { userId: user.id },
-              'RANDOM_TOKEN_SECRET',
-              { expiresIn: '24h' }
-            )
+            userId: id,
+            userType: type,
+            message: 'Connecté avec succès'
           });
         })
+      })
         .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
+};
+
+exports.logout = (req, res, next) => {
+  try {
+    // Détruisez la session
+    req.session.destroy();
+    res.send('Déconnecté avec succès');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erreur lors de la déconnexion' });
+  }
 };

@@ -26,8 +26,7 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false
     },
     sector: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     }
   });
   return Entreprise;

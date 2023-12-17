@@ -1,11 +1,7 @@
 const express = require('express');
 const path = require('path');
-/*
-mongoose.connect('mongodb+srv://lina:scaolO4MansRER32@cluster0.wsovhbg.mongodb.net/?retryWrites=true&w=majority')
-.then(() => console.log('Connexion à MongoDB réussie !'))
-.catch(() => console.log('Connexion à MongoDB échouée !')
-);
-*/
+const session = require('express-session');
+
 const app = express();
 const cors = require('cors');
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -17,7 +13,15 @@ const loginRoutes = require('./app/routes/login.js');
 const enterpriseRoutes = require('./app/routes/enterprise.js');
 const jobRoutes = require('./app/routes/job.js');
 const contractRoutes = require('./app/routes/contract.js');
+const oneDay = 1000 * 60 * 60 * 24;
 
+// Configuration de la session
+app.use(session({
+  secret: 'votre_secret_key',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {}
+}));
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -28,7 +32,6 @@ app.use(cors({
   origin: '*',
   methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));
-
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/auth', loginRoutes);
 app.use('/api/user', userRoutes);
