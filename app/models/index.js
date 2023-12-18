@@ -50,7 +50,8 @@ const entitiesUE = {
   enterprise: enterpriseDB
 };
 const ConversationUE = sequelize.define('ConversationUE',{
-  content: Sequelize.STRING
+  content: Sequelize.STRING,
+  recipient: Sequelize.STRING
 });
 entitiesUE.user.belongsToMany(entitiesUE.enterprise, {through: ConversationUE});
 entitiesUE.enterprise.belongsToMany(entitiesUE.user, {through: ConversationUE});

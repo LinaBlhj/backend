@@ -178,7 +178,7 @@ catch (error) {
   };
   exports.getConversation = async (req, res, next) => {
     try {
-      const userId = req.auth.userId; // Assurez-vous que le paramètre est correctement extrait de votre route
+      const userId = req.params.id; // Assurez-vous que le paramètre est correctement extrait de votre route
   
       // Recherchez l'utilisateur par son identifiant
       const user = await userDB.findByPk(userId);
@@ -190,7 +190,7 @@ catch (error) {
   
     // Utilisez la méthode magique "get" pour obtenir la conversation associée directement à partir de l'utilisateur
     const conversation = await user.getEntreprises({
-      through: { model: ConversationUE, attributes: ['content'] },
+      through: { model: ConversationUE, attributes: ['content', 'recipient'], where:{recipient: req.params.recipient} },
     });
   
       // Envoyez la conversation en tant que réponse
@@ -211,7 +211,7 @@ exports.requestPasswordReset = (req, res, next) => {
     //const hash = bcrypt.hash(verificationCode, 10);
 
     console.log(verificationCode)
-    /*sendEmail(user.email,"Password Reset Request",
+    sendEmail(user.email,"Password Reset Request",
       {
         name: user.nom,
         code: verificationCode,
@@ -225,7 +225,7 @@ exports.requestPasswordReset = (req, res, next) => {
           console.log(`success`)
           res.sendStatus(200)
          }
-  })*/
+  })
     
   })
 

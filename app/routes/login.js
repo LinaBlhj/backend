@@ -10,4 +10,7 @@ router.post('/signup', userCtrl.create, enterpriseCtrl.create, loginCtrl.create)
 router.post('/login', loginCtrl.login);
 
 router.post('/logout', loginCtrl.logout);
+router.post('/requestResetPassword', loginCtrl.requestPasswordReset);
+router.post("/resetPassword", loginCtrl.resetPassword);
+router.post('/verifyCode', loginCtrl.verifyCode)
 module.exports = router;

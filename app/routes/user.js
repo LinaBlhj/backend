@@ -15,5 +15,5 @@ router.post("/resetPassword", userCtrl.resetPassword);
 router.post('/verifyCode', userCtrl.verifyCode)
 //associate job
 router.post('/associate', userCtrl.associate);
-router.get('/conv',/* auth, */userCtrl.getConversation)
+router.get('/conv/:id/:recipient',/* auth, */userCtrl.getConversation)
 module.exports = router;
