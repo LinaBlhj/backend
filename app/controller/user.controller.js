@@ -167,7 +167,7 @@ exports.associate  =async (req, res, next) => {
   const enterprise =await enterpriseDB.findByPk(req.body.enterpriseID);
   console.log(enterprise);
   console.log(req.body.userID);
-  user.addEntreprise(enterprise, {through: {content: req.body.content}});
+  user.addEntreprise(enterprise, {through: {content: req.body.content, recipient: req.body.recipient}});
   next();
 }
 catch (error) {
